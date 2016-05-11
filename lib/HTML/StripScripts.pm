@@ -2176,7 +2176,7 @@ L<HTML::Scrubber::StripScripts> module instead.
 URIs and email addresses are cleaned up to be safe, but not
 necessarily accurate.  That would have required adding dependencies.
 Attribute callbacks can be used to add this functionality if required,
-or the validation methods can be overriden.
+or the validation methods can be overridden.
 
 By default, filtered HTML may not be valid strict XHTML, for instance empty
 required attributes may be outputted.  However, with L</"Rules">,

@@ -1630,7 +1630,7 @@ size or length.
 
 sub _hss_attval_size {
     $_[3]
-        =~ /^\s*([+-]?\d{1,20}(?:\.\d{1,20)?)\s*((?:\%|\*|ex|px|pc|cm|mm|in|pt|em)?)\s*$/i
+        =~ /^\s*([+-]?\d{1,20}(?:\.\d{1,20})?)\s*((?:\%|\*|ex|px|pc|cm|mm|in|pt|em)?)\s*$/i
         ? lc "$1$2"
         : undef;
 }

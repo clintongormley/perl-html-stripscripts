@@ -1473,7 +1473,7 @@ sub validate_mailto {
 
     return $1
         if $text =~ m/^(
-            mailto:[\w\-!#$%&'*+-\/=?^_`{|}~.]{1,64}    # localpart
+            mailto:[\w\-!#\$%&'*+-\/=?^_`{|}~.]{1,64}    # localpart
             \@                                          # @
             [\w\-\.]{1,100}                             # domain
             (?:                                         # opt query string

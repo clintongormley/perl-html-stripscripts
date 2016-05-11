@@ -2,7 +2,7 @@ MANIFEST
 Changes
 Makefile.PL
 README
-StripScripts.pm
+lib/HTML/StripScripts.pm
 examples/direct/direct.pl
 examples/direct/README
 examples/declaration/MyStripScripts.pm

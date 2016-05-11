@@ -1473,7 +1473,7 @@ sub validate_mailto {
 
     return $1
         if $text =~ m/^(
-            mailto:[\w\-!#$%&'*+-\/=?^_`{|}~.]{1,64}    # localpart
+            mailto:[\w\-!#\$%&'*+-\/=?^_`{|}~.]{1,64}    # localpart
             \@                                          # @
             [\w\-\.]{1,100}                             # domain
             (?:                                         # opt query string
@@ -1630,7 +1630,7 @@ size or length.
 
 sub _hss_attval_size {
     $_[3]
-        =~ /^\s*([+-]?\d{1,20}(?:\.\d{1,20)?)\s*((?:\%|\*|ex|px|pc|cm|mm|in|pt|em)?)\s*$/i
+        =~ /^\s*([+-]?\d{1,20}(?:\.\d{1,20})?)\s*((?:\%|\*|ex|px|pc|cm|mm|in|pt|em)?)\s*$/i
         ? lc "$1$2"
         : undef;
 }
@@ -2176,7 +2176,7 @@ L<HTML::Scrubber::StripScripts> module instead.
 URIs and email addresses are cleaned up to be safe, but not
 necessarily accurate.  That would have required adding dependencies.
 Attribute callbacks can be used to add this functionality if required,
-or the validation methods can be overriden.
+or the validation methods can be overridden.
 
 By default, filtered HTML may not be valid strict XHTML, for instance empty
 required attributes may be outputted.  However, with L</"Rules">,

@@ -1133,7 +1133,7 @@ BEGIN {
                  'td'   => \%thtd_attr,
                  'ins'  => \%insdel_attr,
                  'del'  => \%insdel_attr,
-                 'a'    => { %attr, href => 'href', },
+                 'a'    => { %attr, href => 'href', title => 'text' },
                  'h1'   => \%texta_attr,
                  'h2'   => \%texta_attr,
                  'h3'   => \%texta_attr,

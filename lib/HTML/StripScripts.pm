@@ -1598,23 +1598,55 @@ sub _hss_attval_style {
     my @clean = ();
 
     # Split on semicolon, making a reasonable attempt to ignore
-    # semicolons inside doublequotes or singlequotes.
-    while ( $attrval =~ s{^((?:[^;'"]|'[^']*'|"[^"]*")+)}{} ) {
-        my $elt = $1;
-        $attrval =~ s/^;//;
-
-        if ( $elt =~ m|^\s*([\w\-]+)\s*:\s*(.+?)\s*$|s ) {
-            my ( $key, $val ) = ( lc $1, $2 );
-
-            my $value_class = $filter->{_hssStyle}{$key};
-            next unless defined $value_class;
-            my $sub = $filter->{_hssAttVal}{$value_class};
-            next unless defined $sub;
-
-            my $cleanval = &{$sub}( $filter, 'style-psuedo-tag', $key, $val );
-            if ( defined $cleanval ) {
-                push @clean, "$key:$val";
+    # semicolons inside doublequotes, singlequotes or parentheses.
+    my $rule  = '';
+    my $paren = 0;
+    pos $attrval = 0;
+    while (
+        $attrval =~ m{
+          \G
+          (?:
+            ( [^;'"()]+ | ' [^']* ' | " [^"]* " )
+          | ( [(] )
+          | ( [)] )
+          | ( [;] )
+          | \z
+          )
+        }cgx
+    ) {
+        if (defined $1) {
+            $rule .= $1;
+            next;
+        } elsif ($2) {
+            $rule .= $2;
+            $paren++;
+            next;
+        } elsif ($3) {
+            $rule .= $3;
+            $paren--;
+            last if $paren < 0;    # unbalanced parentheses
+            next;
+        } elsif ($4) {
+            if (0 < $paren) {      # allow semicolons within parentheses
+                $rule .= $4;
+                next;
             }
+        } else {
+            last if $paren != 0;    # unbalanced parentheses
+        }
+
+        $rule =~ s/\A\s+//;
+        $rule =~ s/\s+\z//;
+        my ($key, $val) = split /\s*:\s*/, $rule, 2;
+        $rule = '';
+
+        next unless defined $val;
+        $key =~ s/\A([-\w]+)\z/lc $1/e
+            or next;
+        my $sub = $filter->{_hssAttVal}{$filter->{_hssStyle}{$key} || ''}
+            or next;
+        if (defined $sub->($filter, 'style-psuedo-tag', $key, $val)) {
+            push @clean, "$key:$val";
         }
     }
 
